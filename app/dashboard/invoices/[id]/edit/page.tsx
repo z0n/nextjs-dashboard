@@ -3,7 +3,18 @@ import Breadcrumbs from "@/app/ui/invoices/breadcrumbs";
 import { fetchCustomers, fetchInvoiceById } from "@/app/lib/data";
 import { notFound } from "next/navigation";
 
-export default async function Page({ params }: { params: { id: string } }) {
+type Props = {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata({ params, searchParams }: Props) {
+  return {
+    title: `Edit Invoice ${params.id}`,
+  };
+}
+
+export default async function Page({ params }: Props) {
   const id = params.id;
   const invoice = await fetchInvoiceById(id);
   const customers = await fetchCustomers();
